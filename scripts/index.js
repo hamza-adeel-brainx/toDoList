@@ -1,46 +1,63 @@
 const task = document.getElementById("add-task");
 const list = document.getElementById("list");
 const clearItemsbtn = document.querySelector(".clear-btn");
+const alertText=document.querySelector(".alert");
 
-var editFlag = false;
-var editElement;
+let editFlag = false;
+let editElement;
 
 task.addEventListener("keypress", (e) => {
     if (e.key == "Enter") {
-        addItemToList(task.value);
+        if(validateInput(task.value))
+        {
+            addItemToList(task.value);
+        }       
         task.value = "";
-        if (list.childNodes.length >= 0) {
-
-            clearItemsbtn.classList.add("clear-btn-diplay")
-        }
+       
     }
 
 });
 
+function validateInput(value) {
+    let inputpattern="^\\s+$";;
+    if(value.match(inputpattern))
+    {
+        displayAlert("Invalid input","text-danger");
+        return false;
+    }
+    else if(value==""){
+        displayAlert("No Input","text-danger");
+        return false;
+    }
+    else{
+        return true;
+    }
+}
 
 function addItemToList(value) {
 
-    if (value == "") {
-        alert("No task to add");
-    } else if (value != "" && editFlag) {
+    if (value != "" && editFlag) {
         editFlag = false;
-        console.log(editElement);
         editElement.textContent = value;
+        displayAlert("sucessfully edited","text-success");
     } else {
-        var listitem = document.createElement("li");
+        const listitem = document.createElement("li");
         listitem.innerHTML = ` <input type="checkbox">
             <span>${value}</span>
             <i class="fa fa-trash del"></i>
             <i class="fa fa-edit edit"></i> <hr>`
         list.appendChild(listitem);
-        var delbtn = listitem.querySelector(".del");
-        var editbtn = listitem.querySelector(".edit");
-        var checkbox = listitem.querySelector("input");
+        const delbtn = listitem.querySelector(".del");
+        const editbtn = listitem.querySelector(".edit");
+        const checkbox = listitem.querySelector("input");
         delbtn.addEventListener("click", deleteitem);
         editbtn.addEventListener("click", edititem);
         checkbox.addEventListener("click", changeStyle);
-
+        clearItemsbtn.classList.add("clear-btn-diplay");
+        displayAlert("Item Added", "text-success");
+        
     }
+    
 
 }
 
@@ -59,8 +76,9 @@ function clearItems() {
 
 function deleteitem(e) {
     list.removeChild(e.target.parentElement)
+    displayAlert("Item removed", "text-danger");
     if (list.childNodes.length <= 1) {
-        console.log(list.childNodes.length)
+      
         clearItemsbtn.classList.remove("clear-btn-diplay")
     }
 };
@@ -69,6 +87,20 @@ function edititem(e) {
     editFlag = true;
     editElement = e.target.parentElement.childNodes[3];
 
-    console.log(e.target.parentElement.childNodes[3].textContent)
+  
     task.value = e.target.parentElement.childNodes[3].textContent;
 };
+
+function displayAlert(text,type) {
+   
+    alertText.textContent=text;
+    alertText.classList.add("alert-display")
+    alertText.classList.add(type);
+
+    setTimeout(function () {
+        alertText.textContent = "";
+        alertText.classList.remove("alert-display");
+        alertText.classList.remove(type);
+      }, 1000);
+    
+}

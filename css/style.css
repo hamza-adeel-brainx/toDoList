@@ -12,7 +12,7 @@
 
 #my-todo{
     text-align: center;
-    margin-top: 100px;
+    margin-top: 50px;
     font-size: 40px;
     font-weight: 900;
 
@@ -62,4 +62,33 @@ li{
 }
 .line-througth {
     text-decoration: line-through;
+}
+
+.alert{
+    display: none;
+    margin-left: 160px;
+    margin-top: 20px;
+    /* background-color: rgba(255, 127, 127, 0.514); */
+    border: 0px solid;
+    letter-spacing: 5px;
+    border-radius: 20px;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 15px;
+    width: 50%;
+    font-weight: 300;
+    text-align: center;
+    /* transition:  0.3s linear; */
+    /* transition: cubic-bezier(0.175, 0.885, 0.32, 1.275); */
+}
+.alert-display{
+    display: block;
+}
+.text-success{
+    background-color: rgba(127, 255, 212, 0.514);
+}
+.text-danger{
+    background-color:rgba(255, 127, 127, 0.514);
 }
